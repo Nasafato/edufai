@@ -1,3 +1,4 @@
+/*
 var Child = require('./Child');
 
 var Parent = React.createClass({
@@ -12,3 +13,4 @@ var Parent = React.createClass({
 });
 
 module.exports = Parent;
+*/
