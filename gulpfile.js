@@ -18,12 +18,21 @@ var path = {
 };
 
 gulp.task('copy', function(){
-  gulp.src(path.HTML)
+    gulp.src(path.HTML)
     .pipe(gulp.dest(path.DEST));
 });
 
-gulp.task('watch', function() {
-  gulp.watch(path.HTML, ['copy']);
+gulp.task('replaceHTMLsrc', function(){
+    gulp.src(path.HTML)
+        .pipe(htmlreplace({
+            'js': 'src/' + path.OUT
+        }))
+        .pipe(gulp.dest(path.DEST));
+});
+
+gulp.task('watch', ['replaceHTMLsrc'], function() {
+  // gulp.watch(path.HTML, ['copy']);
+  gulp.watch(path.HTML, ['replaceHTMLsrc']);
 
   var watcher  = watchify(browserify({
     entries: [path.ENTRY_POINT],
@@ -64,7 +73,7 @@ gulp.task('replaceHTML', function(){
 
 gulp.task('production', ['replaceHTML', 'build']);
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['copy', 'watch']);
 /*
 gulp.src(
         ['src/js/Child.js',
