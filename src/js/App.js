@@ -2,6 +2,49 @@
 
 //React.render(<Parent />, document.getElementById('app'));
 
+
+
+var Parent = React.createClass({
+  render: function() {
+    return (
+      <div>
+        Hello
+        <Child tags={this.props.tags}/>
+      </div>
+    ); 
+  }
+});
+
+
+var Child = React.createClass({
+  render: function() {
+    var rows = [];
+    this.props.tags.forEach(function(tag) {
+      rows.push(
+        <Grandchild tag={tag} />
+      );
+    }.bind(this));
+    return (
+      <div>
+        {rows}
+      </div>
+    );
+  }
+});
+
+var Grandchild = React.createClass({
+  render: function() {
+    return (
+      <input className="grandchild" type="checkbox" />
+    );
+  }
+});
+
+
+var tags = ['this', 'is', 'dumb'];
+
+React.render(<Parent tags={tags}/>, document.body);
+/*
 var TagRow = React.createClass({
     handleChange: function() {
         this.props.onUserInput(
@@ -80,6 +123,20 @@ var TagTable = React.createClass({
     }
 });
 
+var SubmitButton = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+        this.props.onUserSubmit();
+    },
+    render: function() {
+        return (
+            <form className="submitButton" onSubmit={this.handleSubmit}>
+                <input type="submit" value="Submit tags" />
+            </form>
+        );
+    }
+});
+
 var SlideView = React.createClass({
     render: function() {
         return (
@@ -95,8 +152,16 @@ var SlideView = React.createClass({
 var Holder = React.createClass({
     getInitialState: function() {
         return {
-            tagsChecked: ['bridge','people']
+            tagsChecked: []
         };
+    },
+    handleSubmit: function() {
+        console.log("Handling submit");
+        var tagsChecked = this.state.tagsChecked;
+        // TODO ajax call to server to pass checked tags
+        console.log("passing " + tagsChecked);
+        this.setState({tagsChecked: []});
+        console.log(this.state.tagsChecked);
     },
     handleUserInput: function(checkedTagName, isChecked) {
         var tagsChecked = this.state.tagsChecked;
@@ -121,6 +186,7 @@ var Holder = React.createClass({
                     tagsChecked={this.state.tagsChecked}
                     onUserInput={this.handleUserInput}
                 />
+                <SubmitButton onUserSubmit={this.handleSubmit} />
             </div>
         );
     }
@@ -139,3 +205,4 @@ image = {
 
 React.render(<Holder image={image} />,
              document.getElementById('app'));
+            */
