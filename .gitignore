@@ -60,3 +60,5 @@ target/
 
 node_modules
 venv
+
+*.swp

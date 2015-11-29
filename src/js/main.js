@@ -1,33 +1,41 @@
 // Holds all the other views
 var Holder = React.createClass({
     getInitialState: function() {
-        var tagsChecked = {}; // manages the checkboxes
-        for (var i = 0; i < this.props.image.tagNames.length; i++) {
-            tagsChecked[this.props.image.tagNames[i]] = false;
-        }
         return ({
-                    image: this.props.image,
-                    tagsChecked: tagsChecked
+                    imageName: '',
+                    imageURL: '',
+                    tagNames: [],
+                    tagsChecked: {} 
                 });
     },
-    // TODO: make this connect with the server and fetch the next image
-    handleSubmit: function() {
-        image2 = {
-            tagNames: [
-                'nature',
-                'forest',
-                'trees',
-                'wildlife'
-            ],
-            imageURL: 'http://www.vccd.org/new%20bridge%20(640x425).jpg'
-        }
-        tagsChecked = {}
-        for (var i = 0; i < image2.tagNames.length; i++) {
-            tagsChecked[image2.tagNames[i]] = false
-        }
-        this.setState({image: image2, tagsChecked: tagsChecked});
+    loadNextImageFromServer: function() {
+        $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            cache: false,
+            success: function(image) {
+                var tagsChecked = {};
+                for (var i = 0; i < image.tagNames.length; i++) {
+                    tagsChecked[image.tagNames[i]] = false;
+                }
+                this.setState(
+                    {imageName: image.imageName,
+                     imageURL: image.imageURL,
+                     tagNames: image.tagNames,
+                     tagsChecked: tagsChecked}
+                );
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
     },
-
+    componentDidMount: function() {
+        this.loadNextImageFromServer()
+    },
+    handleSubmit: function() {
+        this.loadNextImageFromServer()
+    },
     // sets the appropriate tag as checked
     handleCheckbox: function(tagName, value) {
         var tagsChecked = this.state.tagsChecked;
@@ -37,9 +45,9 @@ var Holder = React.createClass({
     render: function() {
         return (
             <div className="holder">
-                <SlideView imageURL={this.state.image.imageURL} />
+                <SlideView imageURL={this.state.imageURL} />
                 <TagContainer 
-                    tagNames={this.state.image.tagNames} 
+                    tagNames={this.state.tagNames} 
                     tagsChecked={this.state.tagsChecked}
                     handleSubmit={this.handleSubmit}
                     handleCheckbox={this.handleCheckbox}
@@ -125,24 +133,5 @@ var TagSubmit = React.createClass({
     }
 });
 
-image = {
-    tagNames: [
-        'bridge',
-        'people',
-        'monument',
-        'architecture'
-    ],
-    imageURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Taj_Mahal_in_March_2004.jpg/200px-Taj_Mahal_in_March_2004.jpg'
-};
-
-image2 = {
-    tagNames: [
-        'nature',
-        'forest',
-        'trees',
-        'wildlife'
-    ],
-    imageURL: 'http://www.vccd.org/new%20bridge%20(640x425).jpg'
-}
-
-React.render(<Holder image={image}/>, document.getElementById('app'));
+React.render(<Holder url='/api/nextimage' />, document.getElementById('app'))
+//React.render(<Holder image={image}/>, document.getElementById('app'));
