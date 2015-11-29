@@ -48,14 +48,16 @@ var Holder = React.createClass({
     },
     render: function() {
         return (
-            <div className="holder">
-                <SlideView imageURL={this.state.imageURL} />
-                <TagContainer 
-                    tagNames={this.state.tagNames} 
-                    tagsChecked={this.state.tagsChecked}
-                    handleSubmit={this.handleSubmit}
-                    handleCheckbox={this.handleCheckbox}
-                />
+            <div className="container">
+                <div className="holder">
+                    <SlideView imageURL={this.state.imageURL} />
+                    <TagContainer 
+                        tagNames={this.state.tagNames} 
+                        tagsChecked={this.state.tagsChecked}
+                        handleSubmit={this.handleSubmit}
+                        handleCheckbox={this.handleCheckbox}
+                    />
+                </div>
             </div>
         );
     }
