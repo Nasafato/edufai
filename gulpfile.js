@@ -14,7 +14,7 @@ var path = {
   DEST: 'dist',
   DEST_BUILD: 'dist/build',
   DEST_SRC: 'dist/src',
-  ENTRY_POINT: './src/js/main.js'
+  ENTRY_POINT: './src/js/App.js'
 };
 
 gulp.task('copy', function(){
@@ -22,6 +22,7 @@ gulp.task('copy', function(){
     .pipe(gulp.dest(path.DEST));
 });
 
+/*
 gulp.task('replaceHTMLsrc', function(){
     gulp.src(path.HTML)
         .pipe(htmlreplace({
@@ -29,10 +30,11 @@ gulp.task('replaceHTMLsrc', function(){
         }))
         .pipe(gulp.dest(path.DEST));
 });
+*/
 
 gulp.task('watch', ['replaceHTMLsrc'], function() {
   // gulp.watch(path.HTML, ['copy']);
-  gulp.watch(path.HTML, ['replaceHTMLsrc']);
+  //gulp.watch(path.HTML, ['replaceHTMLsrc']);
 
   var watcher  = watchify(browserify({
     entries: [path.ENTRY_POINT],
@@ -73,7 +75,7 @@ gulp.task('replaceHTML', function(){
 
 gulp.task('production', ['replaceHTML', 'build']);
 
-gulp.task('default', ['copy', 'watch']);
+gulp.task('default', ['watch']);
 /*
 gulp.src(
         ['src/js/Child.js',
