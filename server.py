@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Tag, Image, CurrentImage
 
-engine = create_engine('sqlite:///edufai_dev.db')
+engine = create_engine('postgres://iosppmgkembtkc:3aDE2tskPLKGPawTz2bQpiuapA@ec2-54-83-202-64.compute-1.amazonaws.com:5432/dbsc758t7jdets')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -53,6 +53,6 @@ def comments_handler():
 
     return Response(json.dumps(comments), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     app.debug = True
-    app.run()
+#    app.run()

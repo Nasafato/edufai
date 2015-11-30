@@ -13,6 +13,7 @@ class Image(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     url = Column(String(1000), nullable=False)
+    Tag = relationship("Tag", cascade="all, delete-orphan")
 
     @property
     def serialize(self):
@@ -52,7 +53,7 @@ class Tag(Base):
         }
 
     
-engine = create_engine('sqlite:///edufai_dev.db')
+engine = create_engine('postgres://iosppmgkembtkc:3aDE2tskPLKGPawTz2bQpiuapA@ec2-54-83-202-64.compute-1.amazonaws.com:5432/dbsc758t7jdets')
 
 Base.metadata.create_all(engine)
 

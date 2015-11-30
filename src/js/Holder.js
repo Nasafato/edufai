@@ -49,7 +49,7 @@ var Holder = React.createClass({
     render: function() {
         return (
             <div className="container">
-                <div className="holder">
+                <div className="holder row">
                     <SlideView imageURL={this.state.imageURL} />
                     <TagContainer 
                         tagNames={this.state.tagNames} 
