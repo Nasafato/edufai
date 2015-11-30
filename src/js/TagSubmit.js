@@ -5,9 +5,9 @@ var TagSubmit = React.createClass({
     },
     render: function() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input type="submit" />
-            </form> 
+            <div className="form-group">
+            <button type="submit" className="btn btn-default">Submit</button>
+            </div>
         );
     }
 });

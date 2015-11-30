@@ -54,12 +54,12 @@ gulp.task('watch', function() {
   return watcher.on('update', function () {
     watcher.bundle()
       .pipe(source(path.OUT))
-      .pipe(gulp.dest(path.DEST_SRC))
+      .pipe(gulp.dest(path.DEST_BUILD))
       console.log('Updated');
   })
     .bundle()
     .pipe(source(path.OUT))
-    .pipe(gulp.dest(path.DEST_SRC));
+    .pipe(gulp.dest(path.DEST_BUILD));
 });
 
 gulp.task('minifyCSS', function() {
