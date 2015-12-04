@@ -58,7 +58,7 @@ docs/_build/
 # PyBuilder
 target/
 
-node_modules
 venv
 
 *.swp
+node_modules/
