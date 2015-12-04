@@ -78,8 +78,6 @@ gulp.task('build', function(){
     .pipe(source(path.MINIFIED_OUT))
     .pipe(streamify(uglify(path.MINIFIED_OUT)))
     .pipe(gulp.dest(path.DEST_BUILD));
-
-     
 });
 
 gulp.task('replaceHTML', function(){
