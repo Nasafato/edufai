@@ -18,6 +18,7 @@ var Holder = React.createClass({
             dataType: 'json',
             cache: false,
             success: function(image) {
+                console.log(image);
                 var tagsChecked = {};
                 for (var i = 0; i < image.tagNames.length; i++) {
                     tagsChecked[image.tagNames[i]] = false;
