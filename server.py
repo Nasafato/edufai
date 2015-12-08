@@ -53,6 +53,6 @@ def comments_handler():
 
     return Response(json.dumps(comments), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
-#if __name__ == "__main__":
+if __name__ == "__main__":
     app.debug = True
-#    app.run()
+    app.run()
