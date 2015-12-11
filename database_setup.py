@@ -13,11 +13,10 @@ class Image(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     url = Column(String(1000), nullable=False)
-    Tag = relationship("Tag", cascade="all, delete-orphan")
+    tag = relationship("Tag", cascade="all, delete-orphan")
 
     @property
     def serialize(self):
-        """Return object data in easily serializeable format"""
         return {
             'id': self.id,
             'name': self.name,
