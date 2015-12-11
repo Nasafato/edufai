@@ -18,23 +18,33 @@ def index():
 @app.route('/api/nextimage', methods=['GET'])
 def nextimage_handler():
     if request.method == 'GET':
-        currentImage = session.query(CurrentImage).one()
-        currentImageId = currentImage.serialize['current_image_id']
+        last_image = session.query(Image).order_by(Image.id.desc()).first()
+        last_id = last_image.serialize['id']
 
-        if currentImageId >= 2:
-            currentImage.current_image_id = 1
+        current_image = session.query(CurrentImage).one()
+        current_image_id = current_image.serialize['current_image_id']
+
+        print("Current image id is {}".format(current_image_id))
+        if current_image_id == last_id:
+            first_image = session.query(Image).order_by(Image.id).first()
+            first_id = first_image.serialize['id']
+            current_image_id = first_id
         else:
-            currentImage.current_image_id += 1
+            current_image_id += 1
+            print("Increment image id to {}".format(current_image_id))
+
+        current_image.current_image_id = current_image_id
+
         session.commit()
 
-        image = session.query(Image).filter_by(id=currentImageId).one()
-        tags = session.query(Tag).filter_by(image_id=currentImageId).all()
-        imageURL = image.serialize['url']
-        imageName = image.serialize['name']
+        image = session.query(Image).filter_by(id=current_image_id).one()
+        tags = session.query(Tag).filter_by(image_id=current_image_id).all()
+        image_url = image.serialize['url']
+        image_name = image.serialize['name']
         tags = [i.serialize['name'] for i in tags]
 
-        return jsonify(imageName=imageName,
-                      imageURL=imageURL,
+        return jsonify(imageName=image_name,
+                      imageURL=image_url,
                       tagNames=tags)
 
 @app.route('/api/comments', methods=['GET', 'POST'])
